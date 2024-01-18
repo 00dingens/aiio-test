@@ -9,18 +9,31 @@ const products = [
 export default function Product() {
   return (
     <div className="products">
-      <div className="productsHeader">
-        <h2>Products</h2>
-        <button className="btn">DONE</button>
+      <div className="productsHeader list-group-item d-flex justify-content-between align-items-center">
+        <p className="d-block placeholder">&nbsp;</p>
+        <h2 className="center m-auto">Products</h2>
+        <button type="button" className="btn btn-light">
+          DONE
+        </button>
       </div>
 
       <div className="productsBody">
-        {products.map((product) => (
-          <li key={product.productId}>{product.productName}</li>
-        ))}
+        <ul className="list-group">
+          {products.map((product) => (
+            <li
+              key={product.productId}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {product.productName}
+              <input type="checkbox" className="form-check-input"></input>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="productsFooter center">
-        <button className="btn">+ ADD PRODUCT</button>
+        <button type="button" className="btn btn-light">
+          + ADD PRODUCT
+        </button>
       </div>
     </div>
   );
