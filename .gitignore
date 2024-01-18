@@ -27,7 +27,8 @@ db.sqlite3
 db.sqlite3-journal
 
 # React
-frontend/static/frontend/*
+frontend/.yarn
+frontend/.next
 
 # Environments
 .env
