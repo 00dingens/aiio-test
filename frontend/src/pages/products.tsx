@@ -1,38 +1,52 @@
-import styles from "@/styles/Home.module.css";
+import Subcategories from "./subcategories";
+import { SelectionContext } from "./index";
+import { useContext } from "react";
 
-const products = [
+interface Product {
+  productName: string;
+  productId: number;
+}
+const products: Product[] = [
   { productName: "Cabbage", productId: 1 },
   { productName: "Garlic", productId: 2 },
   { productName: "Apple", productId: 3 },
 ];
 
-export default function Product() {
+export default function Products({ doneFunction }: { doneFunction: () => void }) {
+  const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
+
   return (
-    <div className="products">
-      <div className="productsHeader list-group-item d-flex justify-content-between align-items-center">
+    <div className="products listing">
+      <div className="listing-header list-group-item d-flex justify-content-between align-items-center">
         <p className="d-block placeholder">&nbsp;</p>
-        <h2 className="center m-auto">Products</h2>
-        <button type="button" className="btn btn-light">
+        <h3 className="center m-auto">Products</h3>
+        <button type="button" className="btn btn-light" onClick={doneFunction}>
           DONE
         </button>
       </div>
 
-      <div className="productsBody">
+      <div className="listing-body">
         <ul className="list-group">
           {products.map((product) => (
-            <li
-              key={product.productId}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              {product.productName}
-              <input type="checkbox" className="form-check-input"></input>
+            <li key={product.productId} className="list-group-item">
+              <div className="p-3 d-flex justify-content-between align-items-center">
+                {product.productName}
+                <input
+                  defaultChecked={selectedP.has(product.productId)}
+                  type="checkbox"
+                  className="form-check-input"
+                  onClick={() => toggleP(product.productId)}
+                ></input>
+              </div>
+
+              {selectedP.has(product.productId) && <Subcategories></Subcategories>}
             </li>
           ))}
         </ul>
       </div>
-      <div className="productsFooter center">
+      <div className="listing-footer center">
         <button type="button" className="btn btn-light">
-          + ADD PRODUCT
+          ＋ ADD PRODUCT
         </button>
       </div>
     </div>
