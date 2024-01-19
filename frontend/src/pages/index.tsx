@@ -1,12 +1,9 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Products from "./products";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Product, SubCategory, SubProduct } from "@/types";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const SelectionContext = React.createContext<{
   selectedP: Map<number, Product>;
@@ -75,7 +72,7 @@ export default function Home() {
           toggleSP,
         }}
       >
-        <main className={`${styles.main} ${inter.className}`}>
+        <main className={`${styles.main}`}>
           <Products doneFunction={handleShowModal}></Products>
 
           <Modal show={showModal} onHide={handleCloseModal}>
