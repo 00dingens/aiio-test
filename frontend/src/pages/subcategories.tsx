@@ -35,7 +35,7 @@ export default function Subcategories() {
                   defaultChecked={selectedSC.has(subCategory.subCategoryId)}
                   type="checkbox"
                   className="form-check-input"
-                  onClick={() => toggleSC(subCategory.subCategoryId)}
+                  onClick={() => toggleSC(subCategory.subCategoryId, subCategory)}
                 ></input>
               </div>
               {selectedSC.has(subCategory.subCategoryId) && <Subproducts></Subproducts>}

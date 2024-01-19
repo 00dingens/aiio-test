@@ -1,11 +1,8 @@
 import Subcategories from "./subcategories";
 import { SelectionContext } from "./index";
 import { useContext } from "react";
+import { Product } from "@/types";
 
-interface Product {
-  productName: string;
-  productId: number;
-}
 const products: Product[] = [
   { productName: "Cabbage", productId: 1 },
   { productName: "Garlic", productId: 2 },
@@ -35,7 +32,7 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
                   defaultChecked={selectedP.has(product.productId)}
                   type="checkbox"
                   className="form-check-input"
-                  onClick={() => toggleP(product.productId)}
+                  onClick={() => toggleP(product.productId, product)}
                 ></input>
               </div>
 

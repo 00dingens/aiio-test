@@ -28,7 +28,7 @@ export default function Subproducts() {
                   defaultChecked={selectedSP.has(subProduct.subProductId)}
                   type="checkbox"
                   className="form-check-input"
-                  onClick={() => toggleSP(subProduct.subProductId)}
+                  onClick={() => toggleSP(subProduct.subProductId, subProduct)}
                 ></input>
               </div>
             </li>
