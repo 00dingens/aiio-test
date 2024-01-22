@@ -20,21 +20,21 @@ share/python-wheels/
 MANIFEST
 
 
+# React
+frontend/.yarn
+frontend/.next
+
 # Django stuff:
 *.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# React
-frontend/.yarn
-frontend/.next
-
 # Environments
+backend/venv/
 .env
 .venv
 env/
-venv/
 ENV/
 env.bak/
 venv.bak/

@@ -14,10 +14,14 @@ For now I will just put my notes here.
 
 ### Backend (TODO):
 
-    cd aiio-test
-    #first time: create venv
+Initial dev setup:
+
+    cd aiio-test/backend
     python3 -m venv venv
     source venv/bin/activate
+    pip install -r requirements.txt
+
+Run application
 
 ## Technology
 
