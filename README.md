@@ -6,6 +6,14 @@ For now I will just put my notes here.
 
 ## Quickstart
 
+### Rund frontend for dev:
+
+    cd aiio-test/frontend
+    npm install
+    npm run dev
+
+### Backend (TODO):
+
     cd aiio-test
     #first time: create venv
     python3 -m venv venv
@@ -40,6 +48,27 @@ Fluid? What does look like the example?
 Responsive?
 Q: Show new subcat when not matched by search?
 Q: Save new subcat immediately? (to get an id)
+
+## TODO
+
+Frontend:
+
+- Service for api calls
+- Add buttons functionality
+- Save functionality
+- Cleanup components:
+
+  - Generic listing Component with Head Body and Footer like BS cards?
+  - Separate Listing and Entries?
+  - Extract state to separate component/service?
+  - => Not everything in index.
+
+Backend:
+
+- Everything
+- Setup project
+- Demo data migration
+- REST
 
 ## Links
 
