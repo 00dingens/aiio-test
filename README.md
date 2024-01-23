@@ -20,11 +20,18 @@ Initial dev setup:
     python3 -m venv venv
     source venv/bin/activate
     pip install -r requirements.txt
+    python manage.py migrate
 
 Run application:
 
     cd aiio-test/backend
     python manage.py runserver
+
+Reset DB:
+
+    cd aiio-test/backend
+    python manage.py flush --no-input
+    python manage.py load_demo_data
 
 ## Technology
 
@@ -72,10 +79,7 @@ Frontend:
 
 Backend:
 
-- Everything
-- Setup project
-- Demo data migration
-- REST
+- Test
 
 ## Links
 
