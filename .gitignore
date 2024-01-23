@@ -32,6 +32,7 @@ db.sqlite3-journal
 
 # Environments
 backend/venv/
+**/__pycache__**
 .env
 .venv
 env/

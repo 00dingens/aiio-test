@@ -21,7 +21,10 @@ Initial dev setup:
     source venv/bin/activate
     pip install -r requirements.txt
 
-Run application
+Run application:
+
+    cd aiio-test/backend
+    python manage.py runserver
 
 ## Technology
 
