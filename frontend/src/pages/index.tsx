@@ -2,8 +2,8 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Products from "./products";
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import { Product, SubCategory, SubProduct } from "@/types";
+import SelectionModal from "./selectionModal";
 
 export const SelectionContext = React.createContext<{
   selectedP: Map<number, Product>;
@@ -47,12 +47,13 @@ export default function Home() {
   const toggleSP = (id: number, object: SubProduct) =>
     toggleObj<SubProduct>(id, object, selectedSP, setSubProducts);
 
+  // Modal visibility and saving the selection
   const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(true);
   const handleCloseModal = (send?: boolean) => {
     if (send) alert("TODO Sending data");
     setShowModal(false);
   };
-  const handleShowModal = () => setShowModal(true);
 
   return (
     <>
@@ -74,38 +75,7 @@ export default function Home() {
       >
         <main className={`${styles.main}`}>
           <Products doneFunction={handleShowModal}></Products>
-
-          <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Body className="text-dark p-4">
-              <h3>Products</h3>
-              <p>
-                {Array.from((selectedP as Map<number, Product>).entries())
-                  .map((x) => x[1].productName)
-                  .sort()
-                  .join(",")}
-              </p>
-              <h3>Sub categories</h3>
-              <p>
-                {Array.from((selectedSC as Map<number, SubCategory>).entries())
-                  .map((x) => x[1].subCategoryName)
-                  .sort()
-                  .join(",")}
-              </p>
-              <h3>Sub products</h3>
-              <p>
-                {Array.from((selectedSP as Map<number, SubProduct>).entries())
-                  .map((x) => x[1].subProductName)
-                  .sort()
-                  .join(",")}
-              </p>
-            </Modal.Body>
-            <Modal.Footer className="justify-content-between">
-              <p></p>
-              <a className="primary" onClick={() => handleCloseModal(true)}>
-                SAVE
-              </a>
-            </Modal.Footer>
-          </Modal>
+          <SelectionModal show={showModal} handleCloseModal={handleCloseModal}></SelectionModal>
         </main>
       </SelectionContext.Provider>
     </>
