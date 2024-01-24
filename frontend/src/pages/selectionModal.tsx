@@ -1,7 +1,7 @@
 import { Product, SubCategory, SubProduct } from "@/types";
 import { useContext } from "react";
 import Modal from "react-bootstrap/Modal";
-import { SelectionContext } from ".";
+import { SelectionContext } from "./selectionsProvider";
 
 export default function SelectionModal({
   handleCloseModal,

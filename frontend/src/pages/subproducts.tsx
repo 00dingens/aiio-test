@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SelectionContext } from "./index";
+import { SelectionContext } from "./selectionsProvider";
 
 const subproducts = [
   { subCategoryId: 1, subProductId: 1, subProductName: "Blue Collectors" },

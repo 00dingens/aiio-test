@@ -1,7 +1,7 @@
 import Subcategories from "./subcategories";
-import { SelectionContext } from "./index";
 import { useContext } from "react";
 import { Product } from "@/types";
+import { SelectionContext } from "./selectionsProvider";
 
 const products: Product[] = [
   { productName: "Cabbage", productId: 1 },

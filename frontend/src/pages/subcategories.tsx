@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SelectionContext } from "./index";
+import { SelectionContext } from "./selectionsProvider";
 import Subproducts from "./subproducts";
 
 // TODO fetch data
