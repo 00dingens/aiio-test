@@ -19,11 +19,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-
-# React
-frontend/.yarn
-frontend/.next
-
 # Django stuff:
 *.log
 local_settings.py
@@ -31,7 +26,7 @@ db.sqlite3
 db.sqlite3-journal
 
 # Environments
-backend/venv/
+/venv/
 **/__pycache__**
 .env
 .venv
