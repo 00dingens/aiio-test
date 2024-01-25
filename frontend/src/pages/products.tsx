@@ -1,5 +1,5 @@
 import Subcategories from "./subcategories";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Product } from "@/types";
 import { SelectionContext } from "./selectionsProvider";
 import { ApiContext } from "./ApiProvider";
@@ -13,7 +13,11 @@ import { ApiContext } from "./ApiProvider";
 export default function Products({ doneFunction }: { doneFunction: () => void }) {
   const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
   const { getProducts } = useContext(ApiContext);
-  const [products, loading] = getProducts();
+  const [products, setProducts] = useState([] as Product[]);
+  //const [products, loading] =
+  getProducts(setProducts);
+
+  //if (loading) return <p>Loading...</p>;
 
   return (
     <div className="products listing">
