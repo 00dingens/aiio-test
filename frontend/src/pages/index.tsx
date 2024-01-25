@@ -24,12 +24,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SelectionsProvider>
-        <ApiProvider>
-          <main className={`${styles.main}`}>
-            <Products doneFunction={handleShowModal}></Products>
-            <SelectionModal show={showModal} handleCloseModal={handleCloseModal}></SelectionModal>
-          </main>
-        </ApiProvider>
+        <main className={`${styles.main}`}>
+          <Products doneFunction={handleShowModal}></Products>
+          <SelectionModal show={showModal} handleCloseModal={handleCloseModal}></SelectionModal>
+        </main>
       </SelectionsProvider>
     </>
   );

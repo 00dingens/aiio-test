@@ -1,8 +1,9 @@
 import Subcategories from "./subcategories";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Product } from "@/types";
 import { SelectionContext } from "./selectionsProvider";
-import { ApiContext } from "./ApiProvider";
+import axios from "axios";
+//import { ApiContext } from "./ApiProvider";
 
 /*const products: Product[] = [
   { productName: "Cabbage", productId: 1 },
@@ -12,12 +13,26 @@ import { ApiContext } from "./ApiProvider";
 
 export default function Products({ doneFunction }: { doneFunction: () => void }) {
   const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
-  const { getProducts } = useContext(ApiContext);
-  const [products, setProducts] = useState([] as Product[]);
+  //const { getProducts } = useContext(ApiContext);
+  //const [products, setProducts] = useState([] as Product[]);
   //const [products, loading] =
-  getProducts(setProducts);
+  //getProducts(setProducts);
 
-  //if (loading) return <p>Loading...</p>;
+  const [products, setProducts] = useState([] as Product[]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/products/")
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data);
+      });
+  }, []);
+
+  const addProduct = async () => {
+    const newProduct = { productName: "New Product" };
+    const response = await axios.post("http://127.0.0.1:8000/api/products/", newProduct);
+    setProducts([...products, response.data]);
+  };
 
   return (
     <div className="products listing">
@@ -49,7 +64,7 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
         </ul>
       </div>
       <div className="listing-footer center">
-        <button type="button" className="btn btn-light">
+        <button type="button" className="btn btn-light" onClick={addProduct}>
           ＋ ADD PRODUCT
         </button>
       </div>

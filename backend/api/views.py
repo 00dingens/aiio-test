@@ -6,14 +6,13 @@ from .serializers import ProductSerializer, SubCategorySerializer, SubProductSer
 
 from rest_framework import viewsets
 
-
-
 import posixpath
 from pathlib import Path
-
 from django.utils._os import safe_join
 from django.views.static import serve as static_serve
 
+
+# needed only to serve a build
 def serve_react(request, path, document_root=None):
     path = posixpath.normpath(path).lstrip("/")
     fullpath = Path(safe_join(document_root, path))
@@ -21,21 +20,6 @@ def serve_react(request, path, document_root=None):
         return static_serve(request, path, document_root)
     else:
         return static_serve(request, "index.html", document_root)
-
-# @api_view(['GET'])
-# def getProducts(request):
-#   products = Product.objects.all()
-#   serializer = ProductSerializer(products, many=True)
-#   return Response(serializer.data)
-
-
-# @api_view(['POST'])
-# def addProduct(request):
-#   serializer = ProductSerializer(data=request.data)
-#   if serializer.is_valid():
-#     serializer.save()
-#   return Response(serializer.data)
-
 
 
 class ProductViewSet(viewsets.ModelViewSet):

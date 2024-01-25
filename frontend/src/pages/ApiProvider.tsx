@@ -20,7 +20,7 @@ export default function ApiProvider({ children }: { children: ReactNode }) {
   ) => [Type[], boolean] = <Type,>(endpoint: string, callback?: (result: Type[]) => void) => {
     let result = [] as Type[];
     let loading = true;
-    fetch("http://127.0.0.1:8000/" + endpoint + "?format=json") // CORS :-/ TODO: fix deployment
+    fetch("http://127.0.0.1:8000/" + endpoint)
       .then((response) => response.json())
       .then((data) => {
         result = data as Type[];
