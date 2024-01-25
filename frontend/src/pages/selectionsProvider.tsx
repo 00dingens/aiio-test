@@ -1,7 +1,7 @@
-import React, { useState, ReactNode } from "react";
+import { useState, ReactNode, createContext } from "react";
 import { Product, SubCategory, SubProduct } from "@/types";
 
-export const SelectionContext = React.createContext<{
+export const SelectionContext = createContext<{
   selectedP: Map<number, Product>;
   toggleP: (pId: number, object: Product) => void;
   selectedSC: Map<number, SubCategory>;
@@ -31,35 +31,6 @@ const toggleObj = <Type,>(
   // TODO this is ugly, there should be a better way to trigger re-render
   setter(new Map(selection));
 };
-
-/* Data service */
-// In the long run, as we are already using frameworks (next),
-// we could also do this easier with swr: https://swr.vercel.app/
-
-/*function DataService() {
-  const [data, setData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (!data) return <p>No profile data</p>;
-
-  return (
-    <div>
-      <h1>{data.name}</h1>
-      <p>{data.bio}</p>
-    </div>
-  );
-}*/
-/* end Data service */
 
 export default function SelectionsProvider({ children }: { children: ReactNode }) {
   const [selectedP, setProducts] = useState<Map<number, Product>>(new Map());

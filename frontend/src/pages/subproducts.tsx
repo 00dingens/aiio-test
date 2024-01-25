@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { SelectionContext } from "./selectionsProvider";
+import { ApiContext } from "./ApiProvider";
 
 const subproducts = [
   { subCategoryId: 1, subProductId: 1, subProductName: "Blue Collectors" },
@@ -7,7 +8,7 @@ const subproducts = [
 ];
 
 export default function Subproducts() {
-  const { selectedSP, toggleSP, ..._ } = useContext(SelectionContext);
+  const { selectedSP, toggleSP } = useContext(SelectionContext);
 
   return (
     <div className="subpro listing">
