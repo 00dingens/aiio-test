@@ -1,13 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { SelectionContext } from "./selectionsProvider";
-import { ApiContext } from "./ApiProvider";
 import { SubProduct } from "@/types";
 import axios from "axios";
-
-const subproducts = [
-  { subCategoryId: 1, subProductId: 1, subProductName: "Blue Collectors" },
-  { subCategoryId: 1, subProductId: 2, subProductName: "Red Collectors" },
-];
+import { API, MOCK_DATA } from "@/constants";
 
 export default function Subproducts({ subCategoryId }: { subCategoryId: number }) {
   const { selectedSP, toggleSP } = useContext(SelectionContext);
@@ -15,7 +10,7 @@ export default function Subproducts({ subCategoryId }: { subCategoryId: number }
   const [subproducts, setSubproducts] = useState([] as SubProduct[]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/subproducts/")
+    fetch(API.subProducts)
       .then((res) => res.json())
       // TODO filter in Backend
       .then((data) => data.filter((entry: SubProduct) => entry.subCategoryId == subCategoryId))
@@ -26,25 +21,17 @@ export default function Subproducts({ subCategoryId }: { subCategoryId: number }
 
   const addSubproduct = async () => {
     // We just add a dummy Subproduct.
-    const newSubproductNames = [
-      "Red Collectors",
-      "Yellow Collectors",
-      "Green Collectors",
-      "Black Collectors",
-      "Large Collectors",
-      "Tiny Collectors",
-    ];
+
     // TODO Show input field and use the input as Subproduct name
     const newSubproduct = {
       subCategoryId,
-      subProductName: newSubproductNames[subproducts.length % newSubproductNames.length],
+      subProductName:
+        MOCK_DATA.subproductNames[subproducts.length % MOCK_DATA.subproductNames.length],
     };
-    const response = await axios
-      .post("http://127.0.0.1:8000/api/subproducts/", newSubproduct)
-      .catch(function (error) {
-        console.log(error.toJSON());
-      });
-    // TODO error handling
+    const response = await axios.post(API.subProducts, newSubproduct).catch(function (error) {
+      // TODO error handling
+      console.log(error.toJSON());
+    });
     console.log("saved subproduct. Response:", response);
     if (response) {
       setSubproducts([...subproducts, response.data]);
@@ -89,7 +76,7 @@ export default function Subproducts({ subCategoryId }: { subCategoryId: number }
                     <div className="p-3 d-flex justify-content-between align-items-center">
                       {subProduct.subProductName}
                       <input
-                        defaultChecked={selectedSP.has(subProduct.subProductId)}
+                        checked={selectedSP.has(subProduct.subProductId)}
                         type="checkbox"
                         className="form-check-input"
                         onClick={() => toggleSP(subProduct.subProductId, subProduct)}

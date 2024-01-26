@@ -3,16 +3,14 @@ import { useContext, useEffect, useState } from "react";
 import { Product } from "@/types";
 import { SelectionContext } from "./selectionsProvider";
 import axios from "axios";
-//import { ApiContext } from "./ApiProvider";
-
-const newProductNames = ["Computer Stuff", "Water Pumps", "Mills", "Toy Cars", "EMPs"];
+import { API, MOCK_DATA } from "@/constants";
 
 export default function Products({ doneFunction }: { doneFunction: () => void }) {
-  const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
+  const { selectedP, toggleP } = useContext(SelectionContext);
   const [products, setProducts] = useState([] as Product[]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/products/")
+    fetch(API.products)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -23,14 +21,12 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
     // We just add a dummy product.
     // TODO Show input field and use the input as Product name
     const newProduct = {
-      productName: newProductNames[products.length % newProductNames.length],
+      productName: MOCK_DATA.productNames[products.length % MOCK_DATA.productNames.length],
     };
-    const response = await axios
-      .post("http://127.0.0.1:8000/api/products/", newProduct)
-      .catch(function (error) {
-        console.log(error.toJSON());
-      });
-    // TODO error handling
+    const response = await axios.post(API.products, newProduct).catch(function (error) {
+      // TODO error handling
+      console.log(error.toJSON());
+    });
     console.log("saved product. Response:", response);
     if (response) {
       setProducts([...products, response.data]);
@@ -54,7 +50,7 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
               <div className="p-3 d-flex justify-content-between align-items-center">
                 {product.productName}
                 <input
-                  defaultChecked={selectedP.has(product.productId)}
+                  checked={selectedP.has(product.productId)}
                   type="checkbox"
                   className="form-check-input"
                   onClick={() => toggleP(product.productId, product)}

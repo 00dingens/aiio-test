@@ -4,7 +4,6 @@ import Products from "./products";
 import React, { useState } from "react";
 import SelectionModal from "./selectionModal";
 import SelectionsProvider from "./selectionsProvider";
-import ApiProvider from "./ApiProvider";
 
 export default function Home() {
   // Modal visibility and saving the selection

@@ -1,6 +1,7 @@
 import { useState, ReactNode, createContext, useContext } from "react";
 import { Product, SubCategory, SubProduct } from "@/types";
 import axios from "axios";
+import { API } from "@/constants";
 
 export const SelectionContext = createContext<{
   selectedP: Map<number, Product>;
@@ -52,13 +53,16 @@ export default function SelectionsProvider({ children }: { children: ReactNode }
       subCategories: Array.from(selectedSC.keys()),
       subProducts: Array.from(selectedSP.keys()),
     };
-    const response = await axios
-      .post("http://127.0.0.1:8000/api/selections/", newSelection)
-      .catch(function (error) {
-        console.log(error.toJSON());
-      });
-    // TODO error handling
-    console.log("saved selection. Response:", response);
+    const response = await axios.post(API.selections, newSelection).catch(function (error) {
+      // TODO error handling
+      console.log(error.toJSON());
+    });
+    if (response) {
+      console.log("saved selection. Response:", response);
+      setProducts(new Map());
+      setSubCategories(new Map());
+      setSubProducts(new Map());
+    }
   };
 
   return (

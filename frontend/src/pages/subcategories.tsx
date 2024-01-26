@@ -3,16 +3,15 @@ import { SelectionContext } from "./selectionsProvider";
 import Subproducts from "./subproducts";
 import { SubCategory } from "@/types";
 import axios from "axios";
-
-// TODO fetch data
+import { API, MOCK_DATA } from "@/constants";
 
 export default function Subcategories({ productId }: { productId: number }) {
-  const { selectedSC, toggleSC, ..._ } = useContext(SelectionContext);
+  const { selectedSC, toggleSC } = useContext(SelectionContext);
   const [subcategories, setSubcategories] = useState([] as SubCategory[]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/subcategories/")
+    fetch(API.subCategories)
       .then((res) => res.json())
       // TODO filter in Backend
       .then((data) => data.filter((entry: SubCategory) => entry.productId == productId))
@@ -23,18 +22,16 @@ export default function Subcategories({ productId }: { productId: number }) {
 
   const addSubcategory = async () => {
     // We just add a dummy Subcategory.
-    const newSubcategoryNames = ["Axes", "Screws", "Plastic Parts", "Liquids"];
     // TODO Show input field and use the input as Subcategory name
     const newSubcategory = {
       productId,
-      subCategoryName: newSubcategoryNames[subcategories.length % newSubcategoryNames.length],
+      subCategoryName:
+        MOCK_DATA.subcategoryNames[subcategories.length % MOCK_DATA.subcategoryNames.length],
     };
-    const response = await axios
-      .post("http://127.0.0.1:8000/api/subcategories/", newSubcategory)
-      .catch(function (error) {
-        console.log(error.toJSON());
-      });
-    // TODO error handling
+    const response = await axios.post(API.subCategories, newSubcategory).catch(function (error) {
+      // TODO error handling
+      console.log(error.toJSON());
+    });
     console.log("saved subcategory. Response:", response);
     if (response) {
       setSubcategories([...subcategories, response.data]);
@@ -79,7 +76,7 @@ export default function Subcategories({ productId }: { productId: number }) {
                     <div className="p-3 d-flex justify-content-between align-items-center">
                       {subCategory.subCategoryName}
                       <input
-                        defaultChecked={selectedSC.has(subCategory.subCategoryId)}
+                        checked={selectedSC.has(subCategory.subCategoryId)}
                         type="checkbox"
                         className="form-check-input"
                         onClick={() => toggleSC(subCategory.subCategoryId, subCategory)}
