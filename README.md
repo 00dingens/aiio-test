@@ -1,20 +1,32 @@
 # aiio-test
 
-Assessment Task for aiio
+Assessment Task for aiio. Further notes are at the bottom.
 
-For now I will just put my notes here.
+## Run the whole thing
 
-## Quickstart
+    cd aiio-test/frontend
+    npm install
+    npm run build
+    cd ../backend
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python manage.py migrate
+    python manage.py runserver
 
-### Rund frontend for dev:
+Browse to http://127.0.0.1:8000/
+
+## Run frontend for development:
+
+Backend can handle both, work with FE running for dev and serve FE build.
 
     cd aiio-test/frontend
     npm install
     npm run dev
 
-### Backend (TODO):
+## Run Backend
 
-Initial dev setup:
+### Initial dev setup:
 
     cd aiio-test/backend
     python3 -m venv venv
@@ -22,90 +34,35 @@ Initial dev setup:
     pip install -r requirements.txt
     python manage.py migrate
 
-Run application:
+### Run application:
 
     cd aiio-test/backend
     python manage.py runserver
 
-Reset DB:
+### Reset DB and load demo data:
 
     cd aiio-test/backend
     python manage.py flush --no-input
     python manage.py load_demo_data
 
-## Technology
-
-React
-
-- (Fluid?)
-- Context API
-- Redux
-- fetch or axios
-
-Django
-
-- Django-Rest?
-
-## Roadmap
-
-Django project structure
-Django scaffold?
-
-- CRUD: products, subcategories, subproducts, (selection)
-  Migrations? -> also for example data
--
-
-React
-Scaffold?
-Context API to save state (Redux needs extra package)
-Fluid? What does look like the example?
-Responsive?
-Q: Show new subcat when not matched by search?
-Q: Save new subcat immediately? (to get an id)
-
-## TODO
-
-Frontend:
-
-- Service for api calls
-- Add buttons functionality
-- Save functionality
-- Cleanup components:
-
-  - Generic listing Component with Head Body and Footer like BS cards?
-  - Separate Listing and Entries?
-  - Extract state to separate component/service?
-  - => Not everything in index.
-
-Backend:
-
-- Test
-
-## Links
-
-Django&React with REST. Looks bit extensive, but good combo to follow along:
-
-- Part1 https://medium.com/swlh/full-stack-with-django-and-react-django-4dcd87d57356
-- Part2 https://medium.com/swlh/full-stack-with-django-and-react-react-afae36017852
-
-Maybe trying this first, looks faster:
-
-- https://medium.com/codex/how-to-integrate-react-and-django-framework-in-a-simple-way-c8b90f3ce945
-
-Django-Rest
-
-- https://radixweb.com/blog/create-rest-api-using-django-rest-framework
-
-  Corrections:
-
-  - file name `frontend/babel.config.json`
-  - Deprecated stuff:
-    - https://www.npmjs.com/package/@babel/plugin-proposal-class-properties
-    - In HomePage.js: `Routes` instead of `Switch`
-
 ## Further notes
 
-    python3 -m pip install pipenv --upgrade
-    pipenv install django
+Usually I would cleanup the git history, but just in case we want to talk about how I approached this thing I kept it.
 
-Deprecated
+I thought about moving the API calls into one service, but something went wrong (because I was still thinking too much in Angular). Should be no big thing, but I think for a tiny project like this it is fine to have the calls where they are made.
+
+As an application grows I would split more things up when they become to crowded, but I also try not to over-engineer things and keep them rather simple.
+
+I decided to use the django-rest-framework, because we are already using frameworks and it makes the whole thing more standardized.
+
+The design is not really beautiful, so I think this is not the main focus of this task and did not care for exact spacings and stuff like border radius too much. In RL I would rather discuss to have a proper and consistent design.
+
+As next steps it would feel natural to:
+
+- Let the user input names for new list entries
+- have a page to view saved selections
+- have a proper design with consistent spacings and colors
+- move FE's api stuff to one service
+- add filter arguments to BE for parent elements
+- set up a proper deployment with docker
+- write tests
