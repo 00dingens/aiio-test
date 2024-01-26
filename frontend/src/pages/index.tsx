@@ -10,8 +10,8 @@ export default function Home() {
   // Modal visibility and saving the selection
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = (send?: boolean) => {
-    if (send) alert("TODO Sending data");
+  const handleCloseModal = (save?: () => void) => {
+    if (save) save();
     setShowModal(false);
   };
 

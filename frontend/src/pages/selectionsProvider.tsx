@@ -1,5 +1,6 @@
-import { useState, ReactNode, createContext } from "react";
+import { useState, ReactNode, createContext, useContext } from "react";
 import { Product, SubCategory, SubProduct } from "@/types";
+import axios from "axios";
 
 export const SelectionContext = createContext<{
   selectedP: Map<number, Product>;
@@ -8,6 +9,7 @@ export const SelectionContext = createContext<{
   toggleSC: (pId: number, object: SubCategory) => void;
   selectedSP: Map<number, SubProduct>;
   toggleSP: (pId: number, object: SubProduct) => void;
+  saveSelection: () => void;
 }>({
   selectedP: new Map(),
   toggleP: () => {},
@@ -15,6 +17,7 @@ export const SelectionContext = createContext<{
   toggleSC: () => {},
   selectedSP: new Map(),
   toggleSP: () => {},
+  saveSelection: () => {},
 });
 
 const toggleObj = <Type,>(
@@ -43,6 +46,21 @@ export default function SelectionsProvider({ children }: { children: ReactNode }
   const toggleSP = (id: number, object: SubProduct) =>
     toggleObj<SubProduct>(id, object, selectedSP, setSubProducts);
 
+  const saveSelection = async () => {
+    const newSelection = {
+      products: Array.from(selectedP.keys()),
+      subCategories: Array.from(selectedSC.keys()),
+      subProducts: Array.from(selectedSP.keys()),
+    };
+    const response = await axios
+      .post("http://127.0.0.1:8000/api/selections/", newSelection)
+      .catch(function (error) {
+        console.log(error.toJSON());
+      });
+    // TODO error handling
+    console.log("saved selection. Response:", response);
+  };
+
   return (
     <>
       <SelectionContext.Provider
@@ -53,6 +71,7 @@ export default function SelectionsProvider({ children }: { children: ReactNode }
           toggleSC,
           selectedSP,
           toggleSP,
+          saveSelection,
         }}
       >
         {children}

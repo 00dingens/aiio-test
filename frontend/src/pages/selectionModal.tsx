@@ -7,10 +7,10 @@ export default function SelectionModal({
   handleCloseModal,
   show,
 }: {
-  handleCloseModal: (save?: boolean) => void;
+  handleCloseModal: (save?: () => void) => void;
   show: boolean;
 }) {
-  const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
+  const { selectedP, selectedSC, selectedSP, saveSelection } = useContext(SelectionContext);
 
   return (
     <Modal show={show} onHide={handleCloseModal}>
@@ -39,7 +39,7 @@ export default function SelectionModal({
       </Modal.Body>
       <Modal.Footer className="justify-content-between">
         <p></p>
-        <a className="primary" onClick={() => handleCloseModal(true)}>
+        <a className="primary" onClick={() => handleCloseModal(saveSelection)}>
           SAVE
         </a>
       </Modal.Footer>

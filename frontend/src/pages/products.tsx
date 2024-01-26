@@ -5,19 +5,10 @@ import { SelectionContext } from "./selectionsProvider";
 import axios from "axios";
 //import { ApiContext } from "./ApiProvider";
 
-/*const products: Product[] = [
-  { productName: "Cabbage", productId: 1 },
-  { productName: "Garlic", productId: 2 },
-  { productName: "Apple", productId: 3 },
-];*/
+const newProductNames = ["Computer Stuff", "Water Pumps", "Mills", "Toy Cars", "EMPs"];
 
 export default function Products({ doneFunction }: { doneFunction: () => void }) {
   const { selectedP, toggleP, selectedSC, selectedSP, ..._ } = useContext(SelectionContext);
-  //const { getProducts } = useContext(ApiContext);
-  //const [products, setProducts] = useState([] as Product[]);
-  //const [products, loading] =
-  //getProducts(setProducts);
-
   const [products, setProducts] = useState([] as Product[]);
 
   useEffect(() => {
@@ -29,7 +20,11 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
   }, []);
 
   const addProduct = async () => {
-    const newProduct = { productName: "New Product" };
+    // We just add a dummy product.
+    // TODO Show input field and use the input as Product name
+    const newProduct = {
+      productName: newProductNames[products.length % newProductNames.length],
+    };
     const response = await axios.post("http://127.0.0.1:8000/api/products/", newProduct);
     setProducts([...products, response.data]);
   };

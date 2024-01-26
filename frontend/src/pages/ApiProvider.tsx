@@ -1,7 +1,7 @@
 import { Product, SubCategory, SubProduct } from "@/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-// I make this a ContextProvider for now, later this could be some Service
+// I make this a ContextProvider for now, later this could be some Service?
 
 export const ApiContext = createContext<{
   getProducts: (callback: (result: Product[]) => void) => [Product[], boolean];

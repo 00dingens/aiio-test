@@ -23,6 +23,6 @@ class SubProduct(models.Model):
 
 class Selection(models.Model):
     selectionId = models.AutoField(primary_key=True)
-    products = models.ManyToManyField(Product)
-    subProducts = models.ManyToManyField(SubProduct)
-    subCategories = models.ManyToManyField(SubCategory)
+    products = models.ManyToManyField(Product, blank=True)
+    subProducts = models.ManyToManyField(SubProduct, blank=True)
+    subCategories = models.ManyToManyField(SubCategory, blank=True)
