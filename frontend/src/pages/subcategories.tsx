@@ -1,20 +1,49 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SelectionContext } from "./selectionsProvider";
 import Subproducts from "./subproducts";
+import { SubCategory } from "@/types";
+import axios from "axios";
 
 // TODO fetch data
-const subcategories = [
-  { productId: 1, subCategoryId: 1, subCategoryName: "Bearings" },
-  { productId: 1, subCategoryId: 2, subCategoryName: "Current Collectors" },
-  { productId: 1, subCategoryId: 3, subCategoryName: "Fans and Fan impellers" },
-  { productId: 1, subCategoryId: 4, subCategoryName: "Insulators" },
-  { productId: 1, subCategoryId: 5, subCategoryName: "Rotars and Stators" },
-];
 
-export default function Subcategories() {
-  // TODO get productId from parent
-
+export default function Subcategories({ productId }: { productId: number }) {
   const { selectedSC, toggleSC, ..._ } = useContext(SelectionContext);
+  const [subcategories, setSubcategories] = useState([] as SubCategory[]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/subcategories/")
+      .then((res) => res.json())
+      // TODO filter in Backend
+      .then((data) => data.filter((entry: SubCategory) => entry.productId == productId))
+      .then((data) => {
+        setSubcategories(data);
+      });
+  }, []);
+
+  const addSubcategory = async () => {
+    // We just add a dummy Subcategory.
+    const newSubcategoryNames = ["Axes", "Screws", "Plastic Parts", "Liquids"];
+    // TODO Show input field and use the input as Subcategory name
+    const newSubcategory = {
+      productId,
+      subCategoryName: newSubcategoryNames[subcategories.length % newSubcategoryNames.length],
+    };
+    const response = await axios
+      .post("http://127.0.0.1:8000/api/subcategories/", newSubcategory)
+      .catch(function (error) {
+        console.log(error.toJSON());
+      });
+    // TODO error handling
+    console.log("saved subcategory. Response:", response);
+    if (response) {
+      setSubcategories([...subcategories, response.data]);
+    }
+  };
+
+  const searchFilter = (subcategory: SubCategory, term: string) => {
+    return term == "" || subcategory.subCategoryName.includes(term);
+  };
 
   return (
     <div className="subcat listing">
@@ -25,26 +54,48 @@ export default function Subcategories() {
       </div>
 
       <div className="listing-body">
-        <input type="text" className="form-control" placeholder="Search" />
-        <ul className="list-group">
-          {subcategories.map((subCategory) => (
-            <li key={subCategory.subCategoryId} className="list-group-item">
-              <div className="p-3 d-flex justify-content-between align-items-center">
-                {subCategory.subCategoryName}
-                <input
-                  defaultChecked={selectedSC.has(subCategory.subCategoryId)}
-                  type="checkbox"
-                  className="form-check-input"
-                  onClick={() => toggleSC(subCategory.subCategoryId, subCategory)}
-                ></input>
-              </div>
-              {selectedSC.has(subCategory.subCategoryId) && <Subproducts></Subproducts>}
-            </li>
-          ))}
-        </ul>
+        {subcategories.length == 0 ? (
+          <div className="center text-dark p-3">
+            This Product has no Subcategories yet. Please click the button!
+          </div>
+        ) : (
+          <>
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {subcategories.filter((subcategory) => searchFilter(subcategory, searchTerm)).length ==
+              0 && (
+              <div className="center text-dark p-3">No matches found for this search term!</div>
+            )}
+            <ul className="list-group">
+              {subcategories
+                .filter((subcategory) => searchFilter(subcategory, searchTerm))
+                .map((subCategory) => (
+                  <li key={subCategory.subCategoryId} className="list-group-item">
+                    <div className="p-3 d-flex justify-content-between align-items-center">
+                      {subCategory.subCategoryName}
+                      <input
+                        defaultChecked={selectedSC.has(subCategory.subCategoryId)}
+                        type="checkbox"
+                        className="form-check-input"
+                        onClick={() => toggleSC(subCategory.subCategoryId, subCategory)}
+                      ></input>
+                    </div>
+                    {selectedSC.has(subCategory.subCategoryId) && (
+                      <Subproducts subCategoryId={subCategory.subCategoryId}></Subproducts>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          </>
+        )}
       </div>
       <div className="listing-footer center">
-        <button type="button" className="btn btn-light">
+        <button type="button" className="btn btn-light" onClick={addSubcategory}>
           ＋ ADD SUBCATEGORY
         </button>
       </div>

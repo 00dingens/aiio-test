@@ -25,8 +25,16 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
     const newProduct = {
       productName: newProductNames[products.length % newProductNames.length],
     };
-    const response = await axios.post("http://127.0.0.1:8000/api/products/", newProduct);
-    setProducts([...products, response.data]);
+    const response = await axios
+      .post("http://127.0.0.1:8000/api/products/", newProduct)
+      .catch(function (error) {
+        console.log(error.toJSON());
+      });
+    // TODO error handling
+    console.log("saved product. Response:", response);
+    if (response) {
+      setProducts([...products, response.data]);
+    }
   };
 
   return (
@@ -53,7 +61,9 @@ export default function Products({ doneFunction }: { doneFunction: () => void })
                 ></input>
               </div>
 
-              {selectedP.has(product.productId) && <Subcategories></Subcategories>}
+              {selectedP.has(product.productId) && (
+                <Subcategories productId={product.productId}></Subcategories>
+              )}
             </li>
           ))}
         </ul>
